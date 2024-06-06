@@ -20,7 +20,7 @@ class JackBot{
   */
   getMove(wells, store1, store2){
     let move;
-    for(let i=5; i>=0; i++){
+    for(let i=5; i>=0; i--){
       if(wells[i] == 6-i){
         move = i;
        break;
