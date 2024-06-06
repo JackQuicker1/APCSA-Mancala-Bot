@@ -21,7 +21,7 @@ class Name{
   getMove(wells, store1, store2){
 
    
-    return floor(Math.random()*6)
+    return 2;
   }
  
   getName(){
