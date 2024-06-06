@@ -1,4 +1,4 @@
-class Name{
+class JackBot{
   constructor(name){
     this.name = name;
   }
@@ -19,9 +19,17 @@ class Name{
                         Player  ||
   */
   getMove(wells, store1, store2){
-
-   
-    return 2;
+    int move;
+    for(int i=0; i<=5; i++){
+      if(wells[i] == 6-i){
+        move = i;
+        i += 5;
+      }
+      else{
+        move = 2;
+      }
+    }
+    return move;
   }
  
   getName(){
