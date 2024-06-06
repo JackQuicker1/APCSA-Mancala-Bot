@@ -19,16 +19,25 @@ class JackBot{
                         Player  ||
   */
   getMove(wells, store1, store2){
-    let move;
+    let move = 2;
+    let directMove = false;
     for(let i=5; i>=0; i--){
       if(wells[i] == 6-i){
         move = i;
+        directMove = true;
        break;
       }
-      else{
-        move = 2;
+    }
+    if(directMove == false){
+      for(let i=5; i>=0; i--){
+        if(wells[i] >=1){
+          move = i;
+          break;
+        }
       }
     }
+        
+    
     return move;
   }
  
