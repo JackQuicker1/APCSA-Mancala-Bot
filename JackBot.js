@@ -23,7 +23,7 @@ class JackBot{
     for(int i=0; i<=5; i++){
       if(wells[i] == 6-i){
         move = i;
-        i += 5;
+       break;
       }
       else{
         move = 2;
