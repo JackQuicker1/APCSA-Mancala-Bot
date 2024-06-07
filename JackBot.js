@@ -41,7 +41,7 @@ class JackBot{
     
   //   return move;
   // }
- function getMove(wells, store1, store2) {
+ getMove(wells, store1, store2) {
     let move = -1;
 
     // Check for perfect move (move that ends in the store)
