@@ -41,56 +41,42 @@ class JackBot{
     
   //   return move;
   // }
-  function getMove(wells, store1, store2){
+ function getMove(wells, store1, store2) {
     let move = -1;
-    let directMove = false;
-    
-    // Perfect move: if the number of beads in the well equals the index of the well plus 1
-    for(let i = 5; i >= 0; i--){
-        if(wells[i] === 6 - i){
-            move = i;
-            directMove = true;
-            break;
+
+    // Check for perfect move (move that ends in the store)
+    for (let i = 5; i >= 0; i--) {
+        if (wells[i] === 6 - i) {
+            return i;  // Return immediately if a perfect move is found
         }
     }
 
-    // Check for captures: if a move ends in an empty well on your side
-    if(!directMove){
-        for(let i = 5; i >= 0; i--){
-            let endIndex = (i + wells[i]) % 12;
-            if(wells[i] > 0 && endIndex < 6 && wells[endIndex] === 0){
-                move = i;
-                directMove = true;
-                break;
-            }
+    // Check for captures (ending in an empty well on player's side)
+    for (let i = 5; i >= 0; i--) {
+        let endIndex = (i + wells[i]) % 12;
+        if (wells[i] > 0 && endIndex < 6 && wells[endIndex] === 0) {
+            return i;  // Return immediately if a capture move is found
         }
     }
 
-    // Avoid moves that give the opponent a turn
-    if(!directMove){
-        for(let i = 5; i >= 0; i--){
-            let endIndex = (i + wells[i]) % 12;
-            if(wells[i] > 0 && endIndex !== 6){
-                move = i;
-                directMove = true;
-                break;
-            }
+    // Avoid giving the opponent an extra turn (avoid moves ending in opponent's store)
+    for (let i = 5; i >= 0; i--) {
+        let endIndex = (i + wells[i]) % 13;
+        if (wells[i] > 0 && endIndex !== 6) {
+            return i;  // Return immediately if a valid move is found
         }
     }
 
-    // If no direct move, pick the first available move
-    if(!directMove){
-        for(let i = 5; i >= 0; i--){
-            if(wells[i] >= 1){
-                move = i;
-                break;
-            }
+    // If no strategic move is found, pick the first available move
+    for (let i = 5; i >= 0; i--) {
+        if (wells[i] > 0) {
+            return i;  // Return immediately if any move is found
         }
     }
-    
+
+    // If no move is possible, return -1 (should not happen in a normal game)
     return move;
 }
- 
   getName(){
     return this.name
   }
