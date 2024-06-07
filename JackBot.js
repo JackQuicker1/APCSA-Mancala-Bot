@@ -43,6 +43,33 @@ class JackBot{
   // }
  getMove(wells, store1, store2) {
     let move = -1;
+    let maxGain = -1;
+
+    // Helper function to simulate a move and return the resulting number of beads in the player's store
+    function simulateMove(wells, move) {
+        let newWells = wells.slice();
+        let beads = newWells[move];
+        newWells[move] = 0;
+        let index = move;
+
+        while (beads > 0) {
+            index = (index + 1) % 12;
+            newWells[index]++;
+            beads--;
+        }
+
+        let gain = 0;
+        if (index < 6 && newWells[index] === 1) {
+            gain += newWells[11 - index] + 1; // Capture opponent's beads
+            newWells[11 - index] = 0;
+            newWells[index] = 0;
+        }
+        if (index == 6) {
+            gain += 1; // Extra turn
+        }
+
+        return gain;
+    }
 
     // Check for perfect move (move that ends in the store)
     for (let i = 5; i >= 0; i--) {
@@ -59,22 +86,26 @@ class JackBot{
         }
     }
 
-    // Avoid giving the opponent an extra turn (avoid moves ending in opponent's store)
+    // Evaluate all moves and choose the one with the maximum gain
     for (let i = 5; i >= 0; i--) {
-        let endIndex = (i + wells[i]) % 13;
-        if (wells[i] > 0 && endIndex !== 6) {
-            return i;  // Return immediately if a valid move is found
+        if (wells[i] > 0) {
+            let gain = simulateMove(wells, i);
+            if (gain > maxGain) {
+                maxGain = gain;
+                move = i;
+            }
         }
     }
 
     // If no strategic move is found, pick the first available move
-    for (let i = 5; i >= 0; i--) {
-        if (wells[i] > 0) {
-            return i;  // Return immediately if any move is found
+    if (move === -1) {
+        for (let i = 5; i >= 0; i--) {
+            if (wells[i] > 0) {
+                return i;  // Return immediately if any move is found
+            }
         }
     }
 
-    // If no move is possible, return -1 (should not happen in a normal game)
     return move;
 }
   getName(){
